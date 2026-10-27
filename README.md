@@ -76,7 +76,7 @@ Frontend production: http://localhost:4173
 | Docker Hub Backend: https://hub.docker.com/r/ahuy237529/237529-backend
 | Docker Hub Frontend: https://hub.docker.com/r/ahuy237529/237529-frontend
 | Render App | CHƯA CẬP NHẬT |
-| Render API | CHƯA CẬP NHẬT |
+| Render API https://two37529-backend-latest.onrender.com
 | MongoDB Atlas | CHƯA CẬP NHẬT |
 
 ## Cấu hình
