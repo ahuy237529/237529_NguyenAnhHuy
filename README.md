@@ -73,7 +73,7 @@ Frontend production: http://localhost:4173
 | Tài nguyên | Đường link |
 |---|---|
 | GitHub | CHƯA CẬP NHẬT |
-| Docker Hub Backend | CHƯA CẬP NHẬT |
+| Docker Hub Backend: https://hub.docker.com/r/ahuy237529/237529-backend
 | Docker Hub Frontend | CHƯA CẬP NHẬT |
 | Render App | CHƯA CẬP NHẬT |
 | Render API | CHƯA CẬP NHẬT |
