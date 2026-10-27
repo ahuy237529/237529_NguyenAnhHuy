@@ -9,85 +9,164 @@
 ## Giới thiệu
 
 Ứng dụng quản lý nhân sự cho phép xem danh sách, xem chi tiết,
-thêm, tìm kiếm, cập nhật và xóa nhân viên.
+thêm, tìm kiếm, cập nhật và xóa hồ sơ nhân viên.
 
-## Công nghệ
+Frontend giao tiếp với Backend thông qua REST API.
+Dữ liệu được lưu trên MongoDB Atlas.
 
-- Frontend: React, Vite
-- Backend: Node.js, Express
-- Database: MongoDB Atlas, Mongoose
-- Quản lý mã nguồn: Git, GitHub
-- Đóng gói: Docker
-- Lưu trữ image: Docker Hub
-- Triển khai: Render
+## Công nghệ sử dụng
 
-## Chạy Backend
+- Frontend: React, Vite.
+- Backend: Node.js, Express.
+- Cơ sở dữ liệu: MongoDB Atlas, Mongoose.
+- Quản lý mã nguồn: Git, GitHub.
+- Đóng gói ứng dụng: Docker.
+- Lưu trữ image: Docker Hub.
+- Triển khai: Render.
 
-Mở terminal tại thư mục backend:
+## Chạy Backend tại máy
 
-    npm ci
-    cp .env.example .env
+Mở Git Bash tại thư mục backend:
 
-Điền thông tin MongoDB vào .env, sau đó chạy:
+```bash
+npm ci
+cp .env.example .env
+```
 
-    npm start
+Điền cấu hình thật trong file .env:
+
+- PORT: 5001.
+- MONGODB_URI: URI kết nối database 237529_NguyenAnhHuy.
+- CLIENT_URL: http://localhost:5174,http://localhost:4173.
+
+Khởi động:
+
+```bash
+npm start
+```
 
 Backend: http://127.0.0.1:5001
 
-## Chạy Frontend
+Health: http://127.0.0.1:5001/health
 
-Mở terminal khác tại thư mục frontend:
+Danh sách nhân viên: http://127.0.0.1:5001/api/employees
 
-    npm ci
+Giữ terminal Backend chạy trong lúc sử dụng Frontend.
 
-Tạo .env từ .env.example.
+## Chạy Frontend tại máy
 
-    npm run dev -- --port 5174 --strictPort
+Mở Git Bash khác tại thư mục frontend:
+
+```bash
+npm ci
+cp .env.example .env
+```
+
+Trong frontend/.env, cấu hình:
+
+```env
+VITE_API_URL=http://127.0.0.1:5001
+```
+
+Khởi động:
+
+```bash
+npm run dev -- --port 5174 --strictPort
+```
 
 Frontend: http://localhost:5174
 
-## Chạy bản Frontend production tại máy
+## Chạy Frontend production tại máy
 
-    npm run build
-    npm start
+Trong thư mục frontend:
+
+```bash
+npm run build
+npm start
+```
 
 Frontend production: http://localhost:4173
-## Build Frontend
 
-    npm run build
+Backend phải đang chạy tại http://127.0.0.1:5001.
 
-## API
+## REST API
+
+Tham số :id hỗ trợ MongoDB _id hoặc mã nhân viên, ví dụ NV001.
 
 | Method | Endpoint | Chức năng |
 |---|---|---|
-| GET | /health | Kiểm tra trạng thái |
-| GET | /api/employees | Danh sách nhân viên |
-| GET | /api/employees?search=An | Tìm kiếm |
-| GET | /api/employees/:id | Chi tiết nhân viên |
+| GET | /health | Kiểm tra Backend và kết nối database |
+| GET | /api/employees | Lấy danh sách nhân viên |
+| GET | /api/employees?search=An | Tìm theo mã nhân viên hoặc họ tên |
+| GET | /api/employees/:id | Xem chi tiết nhân viên |
 | POST | /api/employees | Thêm nhân viên |
 | PUT | /api/employees/:id | Cập nhật nhân viên |
 | DELETE | /api/employees/:id | Xóa nhân viên |
 
+Các trường bắt buộc: employeeId, fullName, email.
+Mã nhân viên không được trùng lặp.
+
+## Docker
+
+Chạy các lệnh build tại thư mục gốc dự án:
+
+```bash
+docker build -t ahuy237529/237529-backend:latest ./backend
+docker build -t ahuy237529/237529-frontend:latest ./frontend
+```
+
+Chạy Backend container:
+
+```bash
+docker run -d --name hr237529-backend --env-file ./backend/.env -e PORT=5000 -p 5002:5000 ahuy237529/237529-backend:latest
+```
+
+Chạy Frontend container:
+
+```bash
+docker run -d --name hr237529-frontend -e PORT=4173 -e API_URL=http://127.0.0.1:5002 -p 4173:4173 ahuy237529/237529-frontend:latest
+```
+
+Frontend Docker: http://localhost:4173
+
+Backend Docker: http://127.0.0.1:5002/api/employees
+
+Các lệnh docker run trên dùng khi chưa có container cùng tên.
+Cổng 4173 và 5002 trên máy phải chưa được ứng dụng khác sử dụng.
+
+## Cấu hình triển khai Render
+
+### Backend
+
+- NODE_ENV: production.
+- PORT: 10000.
+- MONGODB_URI: cấu hình riêng trong Environment trên Render.
+- CLIENT_URL: https://web-237529.onrender.com.
+- Health Check Path: /health.
+
+### Frontend
+
+- NODE_ENV: production.
+- PORT: 10000.
+- API_URL: https://two37529-backend-latest.onrender.com.
+- Health Check Path: /health.
+
+API_URL là URL gốc Backend, không thêm /api/employees.
+
 ## Các đường link nộp bài
 
-| Tài nguyên | Đường link |
+| Trường thông tin | Đường link |
 |---|---|
-| GitHub | CHƯA CẬP NHẬT |
-| Docker Hub Backend: https://hub.docker.com/r/ahuy237529/237529-backend
-| Docker Hub Frontend: https://hub.docker.com/r/ahuy237529/237529-frontend
-| Render App | CHƯA CẬP NHẬT |
-| Render API https://two37529-backend-latest.onrender.com
-| MongoDB Atlas | CHƯA CẬP NHẬT |
+| Link_GitHub | https://github.com/ahuy237529/237529_NguyenAnhHuy |
+| Link_Docker_Backend | https://hub.docker.com/r/ahuy237529/237529-backend |
+| Link_Docker_Frontend | https://hub.docker.com/r/ahuy237529/237529-frontend |
+| Link_Render_App | https://web-237529.onrender.com |
+| Link_Render_API | https://two37529-backend-latest.onrender.com/api/employees |
+| Link_Data_MongoDB | mongodb+srv://ahuy237529_db_user:ahuy237529@clusterahuy237529.92ios4a.mongodb.net/237529_NguyenAnhHuy?retryWrites=true&w=majority |
 
-## Cấu hình
+## Bảo vệ thông tin xác thực
 
-Backend sử dụng:
-- MONGODB_URI
-- PORT
-- CLIENT_URL
-
-Frontend production sử dụng:
-- API_URL: URL gốc của Backend
-- PORT
-
-Không đưa thông tin xác thực vào GitHub.
+- Không commit file .env chứa thông tin thật.
+- File .env.example chỉ chứa cấu hình mẫu.
+- Không đưa mật khẩu, token hoặc URI chứa mật khẩu vào README.
+- Thông tin kết nối production được lưu bằng biến môi trường trên Render.
