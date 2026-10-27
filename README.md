@@ -30,18 +30,21 @@ Mở terminal tại thư mục backend:
 
 Điền thông tin MongoDB vào .env, sau đó chạy:
 
-    npm run dev
+    npm start
 
-Backend: http://localhost:5000
+Backend: http://127.0.0.1:5001
 
 ## Chạy Frontend
 
 Mở terminal khác tại thư mục frontend:
 
     npm ci
-    npm run dev
 
-Frontend: http://localhost:5173
+Tạo .env từ .env.example.
+
+    npm run dev -- --port 5174 --strictPort
+
+Frontend: http://localhost:5174
 
 ## Chạy bản Frontend production tại máy
 
@@ -49,6 +52,9 @@ Frontend: http://localhost:5173
     npm start
 
 Frontend production: http://localhost:4173
+## Build Frontend
+
+    npm run build
 
 ## API
 
